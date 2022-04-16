@@ -38,12 +38,16 @@ LDFLAGS	=	-g $(ARCH) $(RPXSPECS) --entry=_start -Wl,-Map,$(notdir $*.map)
 
 LIBS	:= -liosuhax -lwut
 
+ifeq ($(DEBUG),1)    
+CXXFLAGS += -DDEBUG -g
+CCFLAGS += -DDEBUG -g
+endif
+
 #-------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level
 # containing include and lib
 #-------------------------------------------------------------------------------
 LIBDIRS	:= $(PORTLIBS) $(WUT_ROOT) $(WUT_ROOT)/usr
-
 
 #-------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -114,22 +118,21 @@ DEPENDS	:=	$(OFILES:.o=.d)
 # main targets
 #-------------------------------------------------------------------------------
 
-all	:	$(OUTPUT).rpx
+all	:	 $(OUTPUT).rpx
 
 $(OUTPUT).rpx	:	$(OUTPUT).elf
-$(OUTPUT).elf	:	$(OFILES)
+$(OUTPUT).elf	:   $(OFILES)
+$(OFILES)       :   
 
 $(OFILES_SRC)	: $(HFILES_BIN)
 
 #-------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data
 #-------------------------------------------------------------------------------
-%.bin.o	%_bin.h :	%.bin
+%.png.o	%_png.h :	%.png
 #-------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	@$(bin2o)
-
--include $(DEPENDS)
 
 #-------------------------------------------------------------------------------
 endif
