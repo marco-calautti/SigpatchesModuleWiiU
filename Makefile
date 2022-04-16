@@ -21,22 +21,22 @@ TARGET		:=	01_sigpatches
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
-INCLUDES	:=	include
+INCLUDES	:=	source include
 
 #-------------------------------------------------------------------------------
 # options for code generation
 #-------------------------------------------------------------------------------
-CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
+CFLAGS	:=	-g -Wall -O2 -ffunction-sections -fno-exceptions \
 			$(MACHDEP)
 
 CFLAGS	+=	$(INCLUDE) -D__WIIU__ -D__WUT__
 
-CXXFLAGS	:= $(CFLAGS)
+CXXFLAGS	:= $(CFLAGS) -std=c++20 -fno-rtti
 
 ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	-g $(ARCH) $(RPXSPECS) -Wl,-Map,$(notdir $*.map)
+LDFLAGS	=	-g $(ARCH) $(RPXSPECS) --entry=_start -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lwut -liosuhax
+LIBS	:= -liosuhax -lwut
 
 #-------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level
@@ -113,6 +113,7 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #-------------------------------------------------------------------------------
 # main targets
 #-------------------------------------------------------------------------------
+
 all	:	$(OUTPUT).rpx
 
 $(OUTPUT).rpx	:	$(OUTPUT).elf
