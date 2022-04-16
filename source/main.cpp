@@ -1,5 +1,11 @@
-/* This module assumes the IOSUHAX exploit to have been performed (e.g., 00_mocha.rpx has been executed before this module).
- * This module implements the following patches from the original Mocha CFW:
+/*  I wrote this module as an open source alternative to the closed source 01_sigpatches.rpx module that
+    the wiiu hacks guide https://wiiu.hacks.guide/#/ provides. Why the source code of this module is not
+    available is beyond me.
+
+    This module assumes the IOSUHAX exploit to have been performed (e.g., 00_mocha.rpx has been executed before this module).
+    
+    This module implements the following patches from the original Mocha CFW:
+
     .arm
 
     patch_MCP_authentication_check:
