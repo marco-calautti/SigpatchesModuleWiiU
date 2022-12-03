@@ -1,0 +1,27 @@
+name: build
+
+on:
+  push:
+    branch:
+      - master
+
+jobs:
+  build-binary:
+    name: Build binary
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Build artifacts
+        run: |
+          docker build . -t builder
+          docker run --rm -v ${PWD}:/project builder make
+        id: version
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: 01_sigpatches
+          path: 01_sigpatches.rpx
+          if-no-files-found: warn
