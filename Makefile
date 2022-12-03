@@ -26,10 +26,16 @@ INCLUDES	:=	source include
 #-------------------------------------------------------------------------------
 # options for code generation
 #-------------------------------------------------------------------------------
-CFLAGS	:=	-g -Wall -O2 -ffunction-sections -fno-exceptions \
+CFLAGS	:=	-Ofast -ffunction-sections -fno-exceptions \
 			$(MACHDEP)
 
 CFLAGS	+=	$(INCLUDE) -D__WIIU__ -D__WUT__
+
+ifeq ($(DEBUG),1)
+CFLAGS += -Og -DDEBUG -g
+else
+CFLAGS += -Ofast
+endif
 
 CXXFLAGS	:= $(CFLAGS) -std=c++20 -fno-rtti
 
@@ -37,11 +43,6 @@ ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-g $(ARCH) $(RPXSPECS) --entry=_start -Wl,-Map,$(notdir $*.map)
 
 LIBS	:= -liosuhax -lwut
-
-ifeq ($(DEBUG),1)    
-CXXFLAGS += -DDEBUG -g
-CCFLAGS += -DDEBUG -g
-endif
 
 #-------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level
