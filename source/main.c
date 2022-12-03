@@ -29,10 +29,11 @@
 
 
 #include <iosuhax.h>
+#include <stddef.h>
 
-int main(int argc, char **argv)
+int main()
 {
-    int res = IOSUHAX_Open(nullptr);
+    int res = IOSUHAX_Open(NULL);
     if (res >= 0) {
         IOSUHAX_kern_write32(0x5014cac,0x20004770); // patch_MCP_authentication_check
         IOSUHAX_kern_write32(0x5052c44,0xe3a00000); // patch_IOSC_VerifyPubkeySign - first u32
@@ -43,7 +44,7 @@ int main(int argc, char **argv)
         IOSUHAX_kern_write32(0x5054d70,0xe12fff1e); // patch_cached_cert_check - second u32
         IOSUHAX_Close();
     }
-    
+
     return 0;
 }
 

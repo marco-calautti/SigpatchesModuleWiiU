@@ -26,15 +26,13 @@ INCLUDES	:=	source include
 #-------------------------------------------------------------------------------
 # options for code generation
 #-------------------------------------------------------------------------------
-CFLAGS	:=	-g -Wall -O2 -ffunction-sections -fno-exceptions \
-			$(MACHDEP)
-
-CFLAGS	+=	$(INCLUDE) -D__WIIU__ -D__WUT__
+CFLAGS	:=	$(MACHDEP) -g -Wall -O2 -ffunction-sections -fno-exceptions \
+			$(INCLUDE) -D__WIIU__ -D__WUT__
 
 CXXFLAGS	:= $(CFLAGS) -std=c++20 -fno-rtti
 
 ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	-g $(ARCH) $(RPXSPECS) --entry=_start -Wl,-Map,$(notdir $*.map)
+LDFLAGS	=	-g $(ARCH) $(RPXSPECS) -Wl,-Map,$(notdir $*.map)
 
 LIBS	:= -liosuhax -lwut
 
