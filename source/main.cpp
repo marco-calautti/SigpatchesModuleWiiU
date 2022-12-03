@@ -30,17 +30,21 @@
 
 #include <iosuhax.h>
 
+#define VALUE_A 0xe3a00000 // mov r0, #0
+#define VALUE_B 0xe12fff1e // bx lr
+#define VALUE_C 0x20004770 // mov r0, #0; bx lr
+
 int main(int argc, char **argv)
 {
     int res = IOSUHAX_Open(nullptr);
     if (res >= 0) {
-        IOSUHAX_kern_write32(0x5014cac,0x20004770); // patch_MCP_authentication_check
-        IOSUHAX_kern_write32(0x5052c44,0xe3a00000); // patch_IOSC_VerifyPubkeySign - first u32
-        IOSUHAX_kern_write32(0x5052c48,0xe12fff1e); // patch_IOSC_VerifyPubkeySign - second u32
-        IOSUHAX_kern_write32(0x5052a90,0xe3a00000); // patch_cert_verification - first u32
-        IOSUHAX_kern_write32(0x5052a94,0xe12fff1e); // patch_cert_verification - second u32
-        IOSUHAX_kern_write32(0x5054d6c,0xe3a00000); // patch_cached_cert_check - first u32
-        IOSUHAX_kern_write32(0x5054d70,0xe12fff1e); // patch_cached_cert_check - second u32
+        IOSUHAX_kern_write32(0x5014cac,VALUE_C); // patch_MCP_authentication_check
+        IOSUHAX_kern_write32(0x5052c44,VALUE_A); // patch_IOSC_VerifyPubkeySign - first u32
+        IOSUHAX_kern_write32(0x5052c48,VALUE_B); // patch_IOSC_VerifyPubkeySign - second u32
+        IOSUHAX_kern_write32(0x5052a90,VALUE_A); // patch_cert_verification - first u32
+        IOSUHAX_kern_write32(0x5052a94,VALUE_B); // patch_cert_verification - second u32
+        IOSUHAX_kern_write32(0x5054d6c,VALUE_A); // patch_cached_cert_check - first u32
+        IOSUHAX_kern_write32(0x5054d70,VALUE_B); // patch_cached_cert_check - second u32
         IOSUHAX_Close();
     }
     
