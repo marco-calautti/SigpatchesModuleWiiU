@@ -42,7 +42,7 @@ CXXFLAGS	:= $(CFLAGS) -std=c++20 -fno-rtti
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-g $(ARCH) $(RPXSPECS) --entry=_start -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lmocha -lwut
+LIBS	:= -liosuhax -lwut
 
 #-------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level
