@@ -28,20 +28,19 @@
 */
 
 
-#include <iosuhax.h>
+#include <mocha/mocha.h>
 
 int main(int argc, char **argv)
 {
-    int res = IOSUHAX_Open(nullptr);
-    if (res >= 0) {
-        IOSUHAX_kern_write32(0x5014cac,0x20004770); // patch_MCP_authentication_check
-        IOSUHAX_kern_write32(0x5052c44,0xe3a00000); // patch_IOSC_VerifyPubkeySign - first u32
-        IOSUHAX_kern_write32(0x5052c48,0xe12fff1e); // patch_IOSC_VerifyPubkeySign - second u32
-        IOSUHAX_kern_write32(0x5052a90,0xe3a00000); // patch_cert_verification - first u32
-        IOSUHAX_kern_write32(0x5052a94,0xe12fff1e); // patch_cert_verification - second u32
-        IOSUHAX_kern_write32(0x5054d6c,0xe3a00000); // patch_cached_cert_check - first u32
-        IOSUHAX_kern_write32(0x5054d70,0xe12fff1e); // patch_cached_cert_check - second u32
-        IOSUHAX_Close();
+    if (Mocha_InitLibrary() == MOCHA_RESULT_SUCCESS) {
+        Mocha_IOSUKernelWrite32(0x5014cac,0x20004770); // patch_MCP_authentication_check
+        Mocha_IOSUKernelWrite32(0x5052c44,0xe3a00000); // patch_IOSC_VerifyPubkeySign - first u32
+        Mocha_IOSUKernelWrite32(0x5052c48,0xe12fff1e); // patch_IOSC_VerifyPubkeySign - second u32
+        Mocha_IOSUKernelWrite32(0x5052a90,0xe3a00000); // patch_cert_verification - first u32
+        Mocha_IOSUKernelWrite32(0x5052a94,0xe12fff1e); // patch_cert_verification - second u32
+        Mocha_IOSUKernelWrite32(0x5054d6c,0xe3a00000); // patch_cached_cert_check - first u32
+        Mocha_IOSUKernelWrite32(0x5054d70,0xe12fff1e); // patch_cached_cert_check - second u32
+        Mocha_DeInitLibrary();
     }
     
     return 0;
